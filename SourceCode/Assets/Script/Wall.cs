@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour {
 
+
+    [SerializeField]
+    private GameObject breakParticle;
+
     public float maxhp = 5;
     private float hp;
     public Sprite s2;
@@ -21,7 +25,7 @@ public class Wall : MonoBehaviour {
         if (hp <= maxhp / 2)
             sr.sprite = s2;
         if (hp <= 0)
-            Destroy(gameObject);
+            DestroyWall();
 	}
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -29,7 +33,7 @@ public class Wall : MonoBehaviour {
         //当たったら破壊
         if(other.gameObject.tag == "Player")
         {
-            Destroy(this.gameObject);
+            DestroyWall();
         }
     }
 
@@ -37,5 +41,15 @@ public class Wall : MonoBehaviour {
     {
         if (col.gameObject.tag == "Beam1"|| col.gameObject.tag == "Beam2")
             hp -= 2.5f;
+    }
+
+    void DestroyWall()
+    {
+        //パーティクル発生
+        GameObject particle = Instantiate(breakParticle);
+        particle.transform.position = this.transform.position + new Vector3(0, 0, 0.2f);
+        Destroy(particle, 1f); //1秒後に破壊予約
+
+        Destroy(this.gameObject);
     }
 }
