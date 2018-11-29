@@ -33,7 +33,7 @@ public class Wall : MonoBehaviour {
         //当たったら破壊
         if(other.gameObject.tag == "Player")
         {
-            DestroyWall();
+            hp -= 2.5f;
         }
     }
 

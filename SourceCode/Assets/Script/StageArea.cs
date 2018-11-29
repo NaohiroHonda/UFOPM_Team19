@@ -23,6 +23,9 @@ public class StageArea : MonoBehaviour {
         {
             //Playerが出た時に処理する
             gameManager.PlayerOutNotice(other);
+
+            //出たPlayerを本体ごと削除
+            other.GetComponentInParent<PlayerParent>().DestroyPlayer();
         }
     }
 }
