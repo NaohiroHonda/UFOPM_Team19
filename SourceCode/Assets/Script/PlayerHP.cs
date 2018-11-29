@@ -11,6 +11,11 @@ public class PlayerHP : MonoBehaviour {
     public GameObject deadEffect;
 
     [SerializeField]
+    private float unDamageTime; //無敵時間
+    private bool isDamage;
+    private float timer;
+
+    [SerializeField]
     private PlayerHPUI hpui;
     private GameManager gameManager;
     private SpriteRenderer sp;
@@ -18,6 +23,7 @@ public class PlayerHP : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         isDead = false;
+        isDamage = false;
         hp = maxHP;
 
         hpui.SetMaxHP(maxHP);
@@ -37,6 +43,13 @@ public class PlayerHP : MonoBehaviour {
             //外に出た時と同じように通知
             gameManager.PlayerOutNotice(gameObject.GetComponent<Collider2D>());
         }
+
+        if(isDamage) timer += Time.deltaTime;
+
+        if(timer >= 1f)
+        {
+            isDamage = false;
+        }
 	}
 
     /// <summary>
@@ -45,6 +58,11 @@ public class PlayerHP : MonoBehaviour {
     /// <param name="damage">マイナスの値で回復もできる。</param>
     public void Damage(int damage)
     {
+        if (isDamage) return;
+
+        isDamage = true;
+        timer = 0f;
+
         //加算してジャッジ。
         hp = ((hp -= damage) < maxHP) ? hp : maxHP;
 

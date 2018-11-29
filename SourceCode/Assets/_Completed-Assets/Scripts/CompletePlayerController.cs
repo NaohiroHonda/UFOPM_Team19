@@ -87,7 +87,7 @@ public class CompletePlayerController : MonoBehaviour
                 alfa = 1;
             sr.color = new Color(1, 1, 1, alfa);
 
-            gameObject.layer = LayerMask.NameToLayer("Damage");
+            //gameObject.layer = LayerMask.NameToLayer("Damage");
         }
         else gameObject.layer = 0;
 
