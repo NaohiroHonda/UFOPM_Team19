@@ -8,10 +8,12 @@ public class PlayerHP : MonoBehaviour {
 
     private int hp;             //現在hp
     private bool isDead;        //死亡処理されたか?
+    public GameObject deadEffect;
 
     [SerializeField]
     private PlayerHPUI hpui;
     private GameManager gameManager;
+    private SpriteRenderer sp;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +23,7 @@ public class PlayerHP : MonoBehaviour {
         hpui.SetMaxHP(maxHP);
 
         gameManager = FindObjectOfType<GameManager>();
+        sp = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -29,6 +32,7 @@ public class PlayerHP : MonoBehaviour {
 		if(hp<=0 && !isDead)
         {
             isDead = true;
+            Dead();
 
             //外に出た時と同じように通知
             gameManager.PlayerOutNotice(gameObject.GetComponent<Collider2D>());
@@ -45,6 +49,12 @@ public class PlayerHP : MonoBehaviour {
         hp = ((hp -= damage) < maxHP) ? hp : maxHP;
 
         hpui.SetHP(hp);
+    }
+
+    void Dead()
+    {
+        Instantiate(deadEffect, transform.position, Quaternion.identity);
+        sp.sprite = null;  
     }
 
     void StageOut()
