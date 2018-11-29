@@ -11,6 +11,14 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private Text winText;
 
+    [SerializeField]
+    private GameObject message;
+
+    [SerializeField]
+    private GameObject caller;
+
+    private bool isEnd;
+
     private void Awake()
     {
         
@@ -18,7 +26,9 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        caller.SetActive(false);
+        message.SetActive(false);
+        isEnd = false;
 	}
 	
 	// Update is called once per frame
@@ -28,6 +38,8 @@ public class GameManager : MonoBehaviour {
 
     public void PlayerOutNotice(Collider2D outPlayer)
     {
+        if (isEnd) return;
+
         //player1が出た?
         if(outPlayer.gameObject == player1)
         {
@@ -38,5 +50,9 @@ public class GameManager : MonoBehaviour {
         {
             winText.text = "1P win!";
         }
+
+        isEnd = true;
+        caller.SetActive(true);
+        message.SetActive(true);
     }
 }
